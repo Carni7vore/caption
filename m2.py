@@ -1,6 +1,6 @@
 #model 2. Keep senti in loss function, remove senti in inputs
 # seq input contain senti score of each word
-# latm init does not begin with sentiment cell
+# lstm init does not begin with sentiment cell
 
 """Image-to-text implementation based on http://arxiv.org/abs/1411.4555.
 
@@ -181,7 +181,7 @@ class ShowAndTellModel(object):
           input_ops.batch_with_dynamic_pad(images_and_captions,
                                            batch_size=self.config.batch_size,
                                            queue_capacity=queue_capacity))
-        #TODO
+
       # print(out.get_shape().as_list())
       # print("out")
     # keys = self.sentiment_dict.keys()
@@ -246,7 +246,7 @@ class ShowAndTellModel(object):
       seq_embeddings = tf.nn.embedding_lookup(embedding_map, self.input_seqs)
       #print(seq_embeddings.get_shape().as_list())
       #print("seq")
-
+    """add sentiment into word embedding"""
     keys = self.sentiment_dict.keys()
     values = self.sentiment_dict.values()
     dic_value = tf.cast(values, dtype=tf.float32)
@@ -281,7 +281,7 @@ class ShowAndTellModel(object):
     # This LSTM cell has biases and outputs tanh(new_c) * sigmoid(o), but the
     # modified LSTM in the "Show and Tell" paper has no biases and outputs
     # new_c * sigmoid(o).
-    #TODO
+
 
     lstm_cell = tf.contrib.rnn.BasicLSTMCell(
         num_units=self.config.num_lstm_units, state_is_tuple=True)
@@ -378,6 +378,8 @@ class ShowAndTellModel(object):
 
       #temp_weights= tf.multiply(new_weights,weights)
       # unpacked_senti= tf.unstack(logits,axis=0)
+      #TODO: BATCH SIZE CHANGE
+      """Reshape logits"""
       unpacked_senti= tf.reshape(logits,[32,-1])
       senti_batch_loss=0
       for i in range(self.config.batch_size):
@@ -400,6 +402,7 @@ class ShowAndTellModel(object):
       batch_loss = tf.div(tf.reduce_sum(tf.multiply(losses, weights)),
                           tf.reduce_sum(weights),
                           name="batch_loss")
+      #TODO: CHANGE LEARNING PARAM
       tf.losses.add_loss(batch_loss+ 0.01*senti_loss2)
       #tf.losses.add_loss(batch_loss )
       total_loss = tf.losses.get_total_loss()

@@ -177,7 +177,7 @@ class ShowAndTellModel(object):
           input_ops.batch_with_dynamic_pad(images_and_captions,
                                            batch_size=self.config.batch_size,
                                            queue_capacity=queue_capacity))
-        #TODO
+
       # print(out.get_shape().as_list())
       # print("out")
     # keys = self.sentiment_dict.keys()
@@ -251,9 +251,9 @@ class ShowAndTellModel(object):
         tf.contrib.lookup.KeyValueTensorInitializer(dic_keys, dic_value), -1
     )
     senti_score= table.lookup(self.input_seqs)
-
+    #TODO: MODIFY WITH BATCH SIZE
     senti_score2= tf.reshape(senti_score,[1,-1,1])
-
+    """combine sentiment into word vector"""
     senti_combined= tf.concat([seq_embeddings,senti_score2],2)
     print(seq_embeddings.get_shape().as_list(), "seq_embedding")
     print(senti_score2.get_shape().as_list, "senti_score2")
@@ -292,7 +292,7 @@ class ShowAndTellModel(object):
     # This LSTM cell has biases and outputs tanh(new_c) * sigmoid(o), but the
     # modified LSTM in the "Show and Tell" paper has no biases and outputs
     # new_c * sigmoid(o).
-    #TODO
+
 
     lstm_cell = tf.contrib.rnn.BasicLSTMCell(
         num_units=self.config.num_lstm_units, state_is_tuple=True)
@@ -311,8 +311,9 @@ class ShowAndTellModel(object):
       #$print (self.image_embeddings.get_shape().as_list(),"img")
       #print (self.seq_embeddings.get_shape().as_list(),"seq_embedding")
       #print(self.target_seqs.get_shape().as_list(),"target_seq")
+      """ sentiment embedding into lstm cell"""
       _, state_1 = lstm_cell(tf.cast(self.senti_embeddings,tf.float32), state_0)
-
+      """image embedding into lstm cell"""
       _, initial_state = lstm_cell(self.image_embeddings, state_1)
       #print(_.get_shape().as_list(), "lstm_output")
 
