@@ -1,14 +1,16 @@
 import numpy as np
 import matplotlib.pyplot as plt
-fname="out_train.txt"
+fname="out_file0.txt"
 i=0
-l1=10000
+l1=50000
 senti_score=[]
 senti_avg=[]
 senti_var=[]
 with open(fname) as f1:
 	while(i<l1):
 		w1= f1.readline().rstrip()
+		if not w1:
+			break
 		w2= f1.readline().rstrip()
 
 		w2= "".join((char if char.isalpha() else "") for char in w2)
@@ -36,19 +38,26 @@ with open(fname) as f1:
 # print(senti_score[0:500] )
 
 for i in range(0,l1,5):
-	avg= sum(senti_score[i:i+5])
+	avg= np.mean(senti_score[i:i+5])
 	variance= np.var(senti_score[i:i+5])
 	senti_avg.append(avg)
 	senti_var.append(variance)
 
-plt.figure()
-plt.plot(senti_avg,"o")
-plt.title("mean")
-plt.show()
-plt.figure()
-plt.plot(senti_var,"o")
-plt.title("variance")
-plt.show()
+# plt.figure()
+# plt.plot(senti_avg,"o")
+# plt.title("mean")
+# plt.show()
+# plt.figure()
+# plt.plot(senti_var,"o")
+# plt.title("variance")
+# plt.show()
 
 # print(senti_avg[0:500])
-print(senti_var[0:500])
+# print(senti_var[0:50])
+plt.figure()
+_= plt.hist(senti_var,bins='auto')
+plt.show()
+
+plt.figure()
+_= plt.hist(senti_avg,bins='auto')
+plt.show()
