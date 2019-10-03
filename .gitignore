@@ -4,3 +4,6 @@
 .idea/workspace.xml
 *.h5
 *.pyc
+.idea/caption.iml
+*.iml
+*.iml
