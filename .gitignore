@@ -7,3 +7,5 @@
 .idea/caption.iml
 *.iml
 *.iml
+*.xml
+*.json
