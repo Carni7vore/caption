@@ -1,0 +1,5 @@
+NIC_model 7: 20000 train 2000 eval, vocab 12000
+
+NIC_model 6: 8000 train , vocab 4500
+
+NIC_model 5: 200000 train, vocab 12000
