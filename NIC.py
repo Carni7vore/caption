@@ -16,9 +16,10 @@ text_emb_lstm: Define the decoding part of model used in beam search
 '''
 
 import numpy as np
+
 from keras import backend as K
 from keras import regularizers
-from keras.layers import (LSTM, BatchNormalization, Dense, Dropout, Embedding,
+from tensorflow.keras.layers import (LSTM, BatchNormalization, Dense, Dropout, Embedding,
                           Input, Lambda, TimeDistributed, Concatenate)
 from keras.models import Model
 from inception_v3 import InceptionV3
