@@ -121,6 +121,6 @@ if __name__ == '__main__':
     print (rng[0])
     print (length,"length")
     metrics= calculate_metrics(rng,datasetRES,datasetGTS)
-    print (calculate_metrics(rng,datasetRES,datasetGTS))
+    print (metrics)
     with open('output/metrics.txt','w') as f3:
       json.dump(metrics,f3)
